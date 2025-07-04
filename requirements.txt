@@ -1,3 +1,4 @@
 flask
 visionone-filesecurity
 dotenv
+python-dotenv
