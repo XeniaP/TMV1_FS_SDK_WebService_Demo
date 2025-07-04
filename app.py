@@ -4,6 +4,15 @@ import amaas.grpc
 import time
 import json
 
+import logging
+
+logging.basicConfig(
+    filename='app.log',
+    level=logging.INFO,
+    format='%(asctime)s [%(levelname)s] %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -45,9 +54,12 @@ def upload_file():
         file.save(filepath)
         saved_files.append(file.filename)
         scanResult, scanMessage = malware_scan(filepath)
+        os.remove(filepath)
         if scanResult:
+            logger.exception(f"Clean File: {file.filename} - {scanMessage}")
             return jsonify({"message": "clean", "scanResult": f"{scanMessage}"}), 200
         else:
+            logger.exception(f"Malware Found {file.filename} - {scanMessage}")
             return jsonify({"message": "Malware", "scanResult": f"{scanMessage}"}), 200
 
 if __name__ == '__main__':
