@@ -4,6 +4,9 @@ import amaas.grpc
 import time
 import json
 
+from dotenv import load_dotenv
+load_dotenv()
+
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
